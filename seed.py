@@ -87,12 +87,29 @@ def create_posts(client: datastore.Client, names: list[str], total_posts: int, d
         created += 1
     return created
 
+def cleanup_datastore(client: datastore.Client):
+    """Supprime toutes les entités User et Post."""
+    print("[Cleanup] Démarrage du nettoyage de Datastore...")
+    kinds_to_clean = ['User', 'Post']
+    for kind in kinds_to_clean:
+        query = client.query(kind=kind)
+        query.keys_only = True
+        keys_to_delete = [entity.key for entity in query.fetch()]
+        if keys_to_delete:
+            client.delete_multi(keys_to_delete)
+            print(f"Supprimé {len(keys_to_delete)} entités de type '{kind}'.")
+        else:
+            print(f" Aucune entité de type '{kind}' à supprimer.")
+    print("[Cleanup] Terminé.")
 
 def main():
     args = parse_args()
     client = datastore.Client()
 
     user_names = [f"{args.prefix}{i}" for i in range(1, args.users + 1)]
+
+    cleanup_datastore(client)
+
 
     print(f"[Seed] Utilisateurs ciblés: {user_names}")
     if args.dry_run:

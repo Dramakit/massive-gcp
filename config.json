@@ -1,0 +1,8 @@
+{
+    "APP_URL": "https://tpdonneesmassives.ew.r.appspot.com",
+    "SEED_TOKEN": "change-me-seed-token",
+    "USER_TO_TEST": "load1",
+    "TOTAL_REQUESTS": 1000,
+    "LIMIT_TIMELINE": 50,
+    "AB_PATH": "/usr/bin/ab"
+}
